@@ -1,0 +1,27 @@
+### Demo 0, Lab 10: HTTP essentials against a public API (no backend of ours yet).
+### Run these in IntelliJ or the VS Code REST Client, and the same ones with curl from the guide.
+
+### 1. GET: a resource. Look at the status line, Content-Type and the JSON shape.
+GET https://dummyjson.com/products/1
+Accept: application/json
+
+### 2. A resource that does not exist: the status code is the answer, not the body.
+GET https://dummyjson.com/products/99999
+
+### 3. A collection with query parameters: paging lives in the URL.
+GET https://dummyjson.com/products?limit=3&skip=3&select=title,price
+
+### 4. POST: send JSON, get 201 and the created resource back. Content-Type tells the server what you sent.
+POST https://dummyjson.com/products/add
+Content-Type: application/json
+
+{"title": "ShopScope stoneware mug", "price": 499}
+
+### 5. PUT vs PATCH: replace vs change some fields.
+PATCH https://dummyjson.com/products/1
+Content-Type: application/json
+
+{"price": 549}
+
+### 6. DELETE: idempotent. Send it twice; the second answer is the point.
+DELETE https://dummyjson.com/products/1

@@ -1,0 +1,37 @@
+### The monolith's hand-rolled API. Start it with ./mvnw -q exec:java, then run these (IntelliJ or the VS Code REST Client).
+
+### All products
+GET http://localhost:8080/api/products
+
+### One product
+GET http://localhost:8080/api/products/SKU-TEA-001
+
+### A product that does not exist: 404 by hand
+GET http://localhost:8080/api/products/SKU-NOPE
+
+### Stock
+GET http://localhost:8080/api/inventory/SKU-KET-001
+
+### Checkout: approved
+POST http://localhost:8080/api/checkout
+Content-Type: application/json
+
+{"customerId":"c-1","sku":"SKU-KET-001","quantity":1,"card":"4111111111111111"}
+
+### Checkout: declined (card ends in 0000). Now GET /api/inventory/SKU-KET-001 again. Problem 6.
+POST http://localhost:8080/api/checkout
+Content-Type: application/json
+
+{"customerId":"c-1","sku":"SKU-KET-001","quantity":1,"card":"4111111111110000"}
+
+### Checkout: malformed JSON. Watch what the hand-rolled parser makes of it (Lab 7).
+POST http://localhost:8080/api/checkout
+Content-Type: application/json
+
+{"customerId":"c-1","sku":"SKU-KET-001","quantity":"one","card":"4111111111111111"}
+
+### Checkout: a nested object the parser cannot read
+POST http://localhost:8080/api/checkout
+Content-Type: application/json
+
+{"customer":{"id":"c-1"},"sku":"SKU-KET-001","quantity":1,"card":"4111111111111111"}
